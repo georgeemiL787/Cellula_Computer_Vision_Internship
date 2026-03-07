@@ -1,1 +1,0 @@
-# Water segmentation FastAPI deployment
