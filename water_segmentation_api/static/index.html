@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Body Segmentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --surface: #141922;
+      --surface2: #1a1f2e;
+      --border: #2a3142;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #22d3b9;
+      --accent-dim: #17a89a;
+      --danger: #f87171;
+      --success: #4ade80;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 211, 185, 0.08), transparent),
+        linear-gradient(180deg, var(--bg) 0%, #0a0d12 100%);
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin: 0 0 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: var(--surface2);
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--accent);
+      background: rgba(34, 211, 185, 0.04);
+    }
+    .upload-zone input {
+      display: none;
+    }
+    .upload-zone .label {
+      font-weight: 500;
+      color: var(--text);
+    }
+    .upload-zone .hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+    .file-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 0.75rem;
+      word-break: break-all;
+    }
+    .threshold-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .threshold-row label {
+      flex: 0 0 auto;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .threshold-row input[type="range"] {
+      flex: 1;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--surface2);
+      border-radius: 3px;
+    }
+    .threshold-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 0 2px var(--surface);
+    }
+    .threshold-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      min-width: 3ch;
+    }
+    .btn {
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: filter 0.2s, transform 0.02s;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: none;
+    }
+    .results {
+      display: none;
+      margin-top: 1.5rem;
+    }
+    .results.visible {
+      display: block;
+    }
+    .metric {
+      display: inline-block;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .metric .value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+    .metric .unit {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-left: 0.25rem;
+    }
+    .result-section {
+      margin-bottom: 1.25rem;
+    }
+    .result-section h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+    .mask-frame {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      overflow: auto;
+    }
+    .mask-frame img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    .mask-frame img.pixel-mask {
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+    }
+    .status {
+      font-size: 0.9rem;
+      padding: 0.6rem 0;
+      min-height: 1.5rem;
+    }
+    .status.error {
+      color: var(--danger);
+    }
+    .status.loading {
+      color: var(--text-muted);
+    }
+    .status.success {
+      color: var(--success);
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Water Body Segmentation</h1>
+    <p class="subtitle">Upload a multi-band GeoTIFF (12 bands, Sentinel-2 style) to detect water surfaces.</p>
+
+    <div class="card">
+      <div class="upload-zone" id="uploadZone" role="button" tabindex="0">
+        <input type="file" id="fileInput" accept=".tif,.tiff" aria-label="Choose TIF file">
+        <div class="label">Drop a TIF file here or click to browse</div>
+        <div class="hint">Single file, up to 100 MB</div>
+        <div class="file-name" id="fileName" aria-live="polite"></div>
+      </div>
+
+      <div class="threshold-row">
+        <label for="threshold">Threshold</label>
+        <input type="range" id="threshold" min="0" max="1" step="0.05" value="0.5">
+        <span class="threshold-value" id="thresholdValue">0.5</span>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="analyzeBtn" disabled>Analyze</button>
+      <div class="status" id="status" aria-live="polite"></div>
+
+      <div class="results" id="results">
+        <div class="result-section">
+          <h3>Water regions on your image</h3>
+          <p class="hint" style="margin: 0 0 0.5rem;">Cyan areas are detected water.</p>
+          <div class="mask-frame">
+            <img id="overlayImage" alt="Image with water regions highlighted" src="" style="display: none;">
+          </div>
+        </div>
+        <div class="metric">
+          <span class="value" id="waterRatio">—</span>
+          <span class="unit">pixels classified as water</span>
+        </div>
+        <div class="result-section">
+          <h3>Mask (pixel map)</h3>
+          <div class="mask-frame">
+            <img id="maskImage" class="pixel-mask" alt="Binary mask" src="" style="display: none;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Water Segmentation API — Multi-band input, single-band mask output</footer>
+  </div>
+
+  <script>
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const threshold = document.getElementById('threshold');
+    const thresholdValue = document.getElementById('thresholdValue');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const status = document.getElementById('status');
+    const results = document.getElementById('results');
+    const waterRatio = document.getElementById('waterRatio');
+    const overlayImage = document.getElementById('overlayImage');
+    const maskImage = document.getElementById('maskImage');
+
+    function setStatus(msg, type = '') {
+      status.textContent = msg;
+      status.className = 'status ' + type;
+    }
+
+    function setFile(file) {
+      if (!file) {
+        fileName.textContent = '';
+        analyzeBtn.disabled = true;
+        return;
+      }
+      fileName.textContent = file.name;
+      analyzeBtn.disabled = false;
+      setStatus('');
+    }
+
+    uploadZone.addEventListener('click', () => fileInput.click());
+    uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      const f = e.dataTransfer?.files?.[0];
+      if (f && (f.name.toLowerCase().endsWith('.tif') || f.name.toLowerCase().endsWith('.tiff'))) setFile(f);
+      else setStatus('Please drop a TIF or TIFF file.', 'error');
+    });
+    fileInput.addEventListener('change', () => setFile(fileInput.files?.[0] ?? null));
+
+    threshold.addEventListener('input', () => {
+      thresholdValue.textContent = Number(threshold.value).toFixed(2);
+    });
+
+    analyzeBtn.addEventListener('click', async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      setStatus('Analyzing...', 'loading');
+      results.classList.remove('visible');
+      analyzeBtn.disabled = true;
+
+      const form = new FormData();
+      form.append('file', file);
+      form.append('threshold', threshold.value);
+
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          body: form,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setStatus(data.detail || res.statusText || 'Request failed', 'error');
+          analyzeBtn.disabled = false;
+          return;
+        }
+        waterRatio.textContent = (data.water_ratio * 100).toFixed(2) + '%';
+        if (data.overlay_base64_png) {
+          overlayImage.src = 'data:image/png;base64,' + data.overlay_base64_png;
+          overlayImage.style.display = 'block';
+        } else {
+          overlayImage.style.display = 'none';
+        }
+        if (data.mask_base64_png) {
+          maskImage.src = 'data:image/png;base64,' + data.mask_base64_png;
+          maskImage.style.display = 'block';
+        } else {
+          maskImage.style.display = 'none';
+        }
+        results.classList.add('visible');
+        setStatus('Done.', 'success');
+      } catch (err) {
+        setStatus('Network error. Is the API running on this host?', 'error');
+      }
+      analyzeBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
