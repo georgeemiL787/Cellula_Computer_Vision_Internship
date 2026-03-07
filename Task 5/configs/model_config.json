@@ -1,0 +1,17 @@
+{
+  "raw_band_order": ["B2", "B3", "B4", "B5", "B6", "B7", "B8", "B8A", "B11", "B12", "B1", "B9"],
+  "all_channel_names": ["B2", "B3", "B4", "B5", "B6", "B7", "B8", "B8A", "B11", "B12", "B1", "B9", "NDWI", "MNDWI", "AWEInsh", "NDVI", "WRI", "NDWI2", "EWI", "TCW"],
+  "selected_channel_indices": [3, 4, 5, 8, 11, 15, 16, 17, 18, 19],
+  "selected_channel_names": ["B5", "B6", "B7", "B11", "B9", "NDVI", "WRI", "NDWI2", "EWI", "TCW"],
+  "normalization_mean": [987.08, 2104.57, 1974.95, 127.68, 10.14, 0.12, 0.03, 0.43, -0.44, 0.24],
+  "normalization_std": [591.8003, 1075.8921, 1213.1813, 1312.2366, 28.2502, 0.4278, 0.4186, 0.4395, 0.3792, 0.3266],
+  "best_threshold": 0.62,
+  "image_size": 128,
+  "architecture": {
+    "adapter": "DeepChannelAdapter",
+    "backbone": "UnetPlusPlus",
+    "encoder_name": "efficientnet-b4",
+    "decoder_attention_type": "scse",
+    "classes": 1
+  }
+}
