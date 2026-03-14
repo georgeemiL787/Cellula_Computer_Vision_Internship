@@ -1,0 +1,54 @@
+
+======================================================================
+SHOP DATASET — FULL INSPECTION REPORT (AFTER CLEANING)
+======================================================================
+
+RAW DATASET
+  Total videos (raw)              : 855
+  Class 0 (non shop lifters)      : 531
+  Class 1 (shop lifters)          : 324
+
+CLEANING STEPS APPLIED
+  Step 1 - Exact duplicates rem.  : 218 videos (218 groups)
+  Step 2 - Cross-class conf. rem. : 242 videos
+  Final clean dataset             : 395 unique videos
+
+CLEAN DATASET CLASS BALANCE
+  Class 0 (non shop lifters)      : 152
+  Class 1 (shop lifters)          : 243
+  Imbalance ratio                 : 1.60x
+
+FRAME STATISTICS (clean set)
+  Min frames                      : 75
+  Max frames                      : 1850
+  Mean frames                     : 322.5
+  Median frames                   : 300.0
+  Std frames                      : 122.5
+
+DURATION STATISTICS (clean set)
+  Min duration                    : 3.00s
+  Max duration                    : 74.00s
+  Mean duration                   : 12.93s
+
+RESOLUTION AND FPS
+  Resolutions found               : {'704x576': 395}
+  FPS values found                : [24.75, 24.83, 25.0]
+
+TRAIN / VAL / TEST SPLIT (clean set)
+  Train                           : 276 videos
+  Val                             : 59 videos
+  Test                            : 60 videos
+
+LEAKAGE VERIFICATION
+  Train <-> Test leaks            : 60
+  Train <-> Val  leaks            : 58
+  Status                          : FAIL
+
+NEAR-DUPLICATE SUMMARY (after exact dedup)
+  Near-dup pairs (pHash <= 10)    : 200558
+  Cross-class pairs (removed)     : 100567
+
+FRAME SAMPLING RECOMMENDATION
+  Recommended num_frames          : 32
+  Videos needing loop-padding     : 0
+======================================================================

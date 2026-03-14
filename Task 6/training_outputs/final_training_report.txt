@@ -1,0 +1,40 @@
+
+=================================================================
+SHOPLIFTING DETECTION — FINAL TRAINING REPORT
+=================================================================
+
+DATASET
+  Train videos              : 598
+  Val videos                : 128
+  Test videos               : 129
+  Frames per video          : 32
+  Frame resolution          : (112, 112)
+
+MODEL A — R3D-18
+  Optimal threshold         : 0.10
+  F1 Score                  : 0.5506
+  Precision                 : 0.3798
+  Recall                    : 1.0000
+  ROC-AUC                   : 0.5000
+  Epochs trained            : 12
+
+MODEL B — CNN+BiLSTM
+  Optimal threshold         : 0.10
+  F1 Score                  : 0.5506
+  Precision                 : 0.3798
+  Recall                    : 1.0000
+  ROC-AUC                   : 0.5000
+  Epochs trained            : 13
+
+WINNER                      : R3D-18
+
+OUTPUTS SAVED
+  /content/drive/MyDrive/training_outputs/
+    r3d18_best.pth
+    cnn_bilstm_best.pth
+    r3d18_history.csv
+    cnn_bilstm_history.csv
+    training_curves.png
+    evaluation_dashboard.png
+    test_results_summary.csv
+=================================================================
