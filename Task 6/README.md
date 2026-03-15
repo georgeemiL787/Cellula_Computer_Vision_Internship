@@ -2,6 +2,34 @@
 
 **Binary video-level classification using deep spatiotemporal models**
 
+<p align="center">
+  <img src="assets/shop_lifter_39_gradcam.gif" alt="3D Grad-CAM -- R3D-18 detecting shoplifting in real time" width="720"/>
+</p>
+
+<p align="center">
+  <em>3D Grad-CAM visualisation of the R3D-18 model processing a shoplifting video. The left panel shows the original CCTV frame; the right panel shows the Grad-CAM heatmap overlay, where warm colours (red/yellow) indicate the spatial regions the model attends to when classifying the clip as "Shoplifting" with a confidence of 0.767. The model tracks the person near the merchandise counter throughout the 32-frame clip, demonstrating that it has learned to focus on human activity rather than static background elements.</em>
+</p>
+
+---
+
+## What This Model Does
+
+The trained R3D-18 model takes a raw CCTV surveillance video clip (any length, any resolution) and outputs a binary prediction: **Shoplifting** or **Normal**. Internally, the model:
+
+1. **Samples 32 uniformly spaced frames** from the clip and resizes them to 112x112 pixels.
+2. **Processes all 32 frames simultaneously** as a 3D spatiotemporal volume through a pretrained R3D-18 backbone (3D convolutions that jointly model spatial patterns and temporal motion).
+3. **Outputs a probability score** between 0 and 1. If the score exceeds the optimised threshold of 0.46, the clip is classified as shoplifting.
+
+The Grad-CAM visualisations confirm that the model has learned **behaviourally meaningful features** -- it consistently activates on the person interacting with merchandise, not on irrelevant background regions. This is visible in the animated GIF above and the static Grad-CAM panels below.
+
+<p align="center">
+  <img src="assets/shop_lifter_39_4frames.png" alt="Grad-CAM 4-frame panel -- shop_lifter_39" width="900"/>
+</p>
+
+<p align="center">
+  <em>Four key frames from shop_lifter_39 with Grad-CAM overlays. Top row: original CCTV frames at the start, 1/3, 2/3, and end of the clip. Bottom row: corresponding Grad-CAM heatmaps. The activation consistently centres on the person near the counter, tracking their movement across the temporal extent of the clip.</em>
+</p>
+
 ---
 
 ## Table of Contents
@@ -17,17 +45,18 @@
 9. [Phase 5 -- Model Architectures](#9-phase-5----model-architectures)
 10. [Phase 6 -- Training Strategy](#10-phase-6----training-strategy)
 11. [Phase 7 -- Evaluation and Results](#11-phase-7----evaluation-and-results)
-12. [Output Artifacts Reference](#12-output-artifacts-reference)
-13. [Two Training Runs -- Comparative Analysis](#13-two-training-runs----comparative-analysis)
-14. [How to Reproduce](#14-how-to-reproduce)
-15. [Limitations and Future Work](#15-limitations-and-future-work)
-16. [Dependencies](#16-dependencies)
+12. [Grad-CAM Interpretability Analysis](#12-grad-cam-interpretability-analysis)
+13. [Output Artifacts Reference](#13-output-artifacts-reference)
+14. [Two Training Runs -- Comparative Analysis](#14-two-training-runs----comparative-analysis)
+15. [How to Reproduce](#15-how-to-reproduce)
+16. [Limitations and Future Work](#16-limitations-and-future-work)
+17. [Dependencies](#17-dependencies)
 
 ---
 
 ## 1. Project Overview
 
-This project implements an end-to-end pipeline for detecting shoplifting activity in CCTV surveillance footage. The system ingests raw surveillance video clips, performs rigorous data cleaning and deduplication, trains two competing deep learning architectures, and evaluates them on a strictly held-out test set.
+This project implements an end-to-end pipeline for detecting shoplifting activity in CCTV surveillance footage. The system ingests raw surveillance video clips, performs rigorous data cleaning and deduplication, trains two competing deep learning architectures, evaluates them on a strictly held-out test set, and produces Grad-CAM interpretability visualisations that confirm the model attends to behaviourally relevant regions.
 
 The task is framed as **binary video-level classification**:
 
@@ -78,10 +107,33 @@ Task 6/
 |-- shoplifting_integrated_pipeline.ipynb    # Full pipeline (24 cells, run top-to-bottom)
 |-- README.md                                # This document
 |
-|-- assets/                                  # Figures extracted from notebook outputs
+|-- assets/                                  # Figures and GIFs for documentation
+|   |-- shop_lifter_39_gradcam.gif           # Animated Grad-CAM (shoplifter, hero GIF)
+|   |-- shop_lifter_39_4frames.png           # 4-frame Grad-CAM panel (shoplifter)
+|   |-- shop_lifter_60_gradcam.gif           # Animated Grad-CAM (shoplifter, second sample)
+|   |-- shop_lifter_60_best_frames.png       # Top-4 activation frames (shoplifter)
+|   |-- shop_lifter_60_cam_timeline.png      # CAM activation over time (temporal plot)
+|   |-- shop_lifter_n_102_1_gradcam.gif      # Animated Grad-CAM (non-shoplifter)
+|   |-- videppppsss_23_gradcam.gif           # Animated Grad-CAM (non-shoplifter)
 |   |-- overview_plots.png                   # Raw dataset inspection (6-panel figure)
 |   |-- visual_sanity_check.png              # Sample frames from train/val/test splits
-|   |-- evaluation_dashboard.png             # Confusion matrices, ROC, PR, bar charts
+|   |-- evaluation_dashboard.png             # Evaluation dashboard (cleaned run)
+|   |-- evaluation_dashboard_uncleaned.png   # Evaluation dashboard (uncleaned run)
+|
+|-- gradcam_outputs/                         # Full Grad-CAM analysis outputs
+|   |-- shop_lifter_39/                      # Per-frame Grad-CAM PNGs (32 frames)
+|   |-- shop_lifter_60/                      # Per-frame Grad-CAM PNGs (32 frames)
+|   |-- shop_lifter_39_gradcam.gif           # Animated GIF
+|   |-- shop_lifter_39_gradcam.mp4           # MP4 video
+|   |-- shop_lifter_39_4frames.png           # 4-frame summary panel
+|   |-- shop_lifter_60_gradcam.gif           # Animated GIF
+|   |-- shop_lifter_60_best_frame.png        # Single highest-activation frame
+|   |-- shop_lifter_60_best_frames.png       # Top-4 activation frames
+|   |-- shop_lifter_60_cam_timeline.png      # Temporal activation plot
+|   |-- shop_lifter_n_102_1_gradcam.gif      # Non-shoplifter Grad-CAM
+|   |-- shop_lifter_n_102_1_gradcam.mp4      # Non-shoplifter MP4
+|   |-- videppppsss_23_gradcam.gif           # Non-shoplifter Grad-CAM
+|   |-- videppppsss_23_gradcam.mp4           # Non-shoplifter MP4
 |
 |-- pipeline_outputs/                        # Artifacts from the cleaned data pipeline
 |   |-- clean_dataset.csv                    # 395 videos after full deduplication
@@ -96,13 +148,14 @@ Task 6/
 |   |-- test_results_summary.csv             # Machine-readable test metrics
 |
 |-- training_outputs/                        # Artifacts from the uncleaned data run
-|   |-- r3d18_history.csv                    # Per-epoch R3D-18 metrics
-|   |-- cnn_bilstm_history.csv               # Per-epoch CNN+BiLSTM metrics
-|   |-- final_training_report.txt            # Summary (shows failure without cleaning)
+|   |-- r3d18_history.csv                    # Per-epoch R3D-18 metrics (uncleaned)
+|   |-- cnn_bilstm_history.csv               # Per-epoch CNN+BiLSTM metrics (uncleaned)
+|   |-- evaluation_dashboard.png             # Dashboard showing AUC=0.5 collapse
+|   |-- final_training_report.txt            # Summary (demonstrates cleaning necessity)
 |   |-- test_results_summary.csv             # Test metrics (baseline comparison)
 ```
 
-> **Note:** Model checkpoint files (`r3d18_best.pth`, `cnn_bilstm_best.pth`) and full-resolution training curve PNGs (`training_curves.png`, `evaluation_dashboard.png`) are saved to Google Drive during execution and are not committed to this repository due to file size.
+> **Note:** Model checkpoint files (`r3d18_best.pth`, `cnn_bilstm_best.pth`) and full-resolution training curve PNGs are saved to Google Drive during execution and are not committed to this repository due to file size.
 
 ---
 
@@ -554,7 +607,78 @@ The notebook generates a comprehensive multi-panel evaluation dashboard:
 
 ---
 
-## 12. Output Artifacts Reference
+## 12. Grad-CAM Interpretability Analysis
+
+To verify that the trained R3D-18 model has learned behaviourally meaningful features rather than exploiting background artefacts, 3D Grad-CAM visualisations were generated for both shoplifting and non-shoplifting samples. Grad-CAM computes the gradient of the predicted class score with respect to the final convolutional layer's activations, producing a spatial heatmap that highlights which regions of the frame most influence the model's decision.
+
+### Shoplifting Samples
+
+#### shop_lifter_39 -- Prediction: Shoplifting (0.767)
+
+<p align="center">
+  <img src="assets/shop_lifter_39_gradcam.gif" alt="Grad-CAM animation -- shop_lifter_39" width="720"/>
+</p>
+
+The animated Grad-CAM overlay shows the model consistently tracking the person near the merchandise counter across all 32 sampled frames. The activation (warm colours) is spatially locked to the person's location, not to any fixed background region.
+
+<p align="center">
+  <img src="assets/shop_lifter_39_4frames.png" alt="Grad-CAM 4-frame panel -- shop_lifter_39" width="900"/>
+</p>
+
+*Four temporally distributed frames (start, 1/3, 2/3, end) with corresponding Grad-CAM heatmaps. The model's attention follows the subject across the scene.*
+
+#### shop_lifter_60 -- Prediction: Shoplifting (0.678)
+
+<p align="center">
+  <img src="assets/shop_lifter_60_gradcam.gif" alt="Grad-CAM animation -- shop_lifter_60" width="720"/>
+</p>
+
+<p align="center">
+  <img src="assets/shop_lifter_60_best_frames.png" alt="Top-4 activation frames -- shop_lifter_60" width="900"/>
+</p>
+
+*Top-4 frames ranked by mean CAM activation score. The model focuses on frames 11--14 where the person is most actively interacting with merchandise, as confirmed by the temporal activation plot below.*
+
+<p align="center">
+  <img src="assets/shop_lifter_60_cam_timeline.png" alt="CAM activation timeline -- shop_lifter_60" width="800"/>
+</p>
+
+*Temporal profile of mean Grad-CAM activation across all 32 frames. The activation peaks during frames 11--14 (marked with red dashed lines), corresponding to the moments of highest shoplifting-relevant activity. This confirms the model exploits temporal dynamics, not just static spatial cues.*
+
+### Non-Shoplifting Samples
+
+#### shop_lifter_n_102_1 -- Prediction: Normal
+
+<p align="center">
+  <img src="assets/shop_lifter_n_102_1_gradcam.gif" alt="Grad-CAM animation -- non-shoplifter" width="720"/>
+</p>
+
+*Non-shoplifting sample. The Grad-CAM activation is more diffuse and lower in intensity compared to the shoplifting samples, indicating the model finds less discriminative signal -- consistent with correctly classifying the clip as normal behaviour.*
+
+#### videppppsss_23 -- Prediction: Normal
+
+<p align="center">
+  <img src="assets/videppppsss_23_gradcam.gif" alt="Grad-CAM animation -- non-shoplifter" width="720"/>
+</p>
+
+*Second non-shoplifting sample. The activation pattern is scattered and does not track any specific person's interaction with merchandise, in contrast to the focused activations seen in the shoplifting samples.*
+
+### Interpretability Summary
+
+| Observation | Shoplifting Samples | Non-Shoplifting Samples |
+|:------------|:-------------------|:-----------------------|
+| Spatial focus | Concentrated on the person near merchandise | Diffuse, no consistent spatial target |
+| Temporal dynamics | Activation peaks during key interaction frames | Relatively flat activation profile |
+| Activation intensity | High (warm red/yellow) | Lower (cool blue/green) |
+| Tracking behaviour | Follows the subject across frames | No coherent tracking pattern |
+
+These visualisations provide confidence that the model's near-perfect test performance reflects genuine learned discrimination of shoplifting behaviour rather than overfitting to dataset artefacts.
+
+> **Source directory:** [`gradcam_outputs/`](gradcam_outputs/) -- contains per-frame PNGs (32 frames per video), animated GIFs, MP4 videos, 4-frame summary panels, best-frame analyses, and temporal activation plots.
+
+---
+
+## 13. Output Artifacts Reference
 
 ### `pipeline_outputs/` -- Cleaning and Inspection Artifacts
 
@@ -582,17 +706,35 @@ The notebook generates a comprehensive multi-panel evaluation dashboard:
 | [`final_training_report.txt`](training_outputs/final_training_report.txt) | -- | (plain text) | Results summary (uncleaned run) |
 | [`test_results_summary.csv`](training_outputs/test_results_summary.csv) | 2 | model, threshold, f1, precision, recall, roc_auc | Test metrics (uncleaned run) |
 
-### `assets/` -- Extracted Notebook Figures
+### `gradcam_outputs/` -- Model Interpretability
 
-| File | Dimensions | Source Cell | Content |
-|:-----|:-----------|:------------|:--------|
-| [`overview_plots.png`](assets/overview_plots.png) | 2340 x 1300 | Cell 4 | Class distribution, frame counts, durations, FPS, file sizes |
-| [`visual_sanity_check.png`](assets/visual_sanity_check.png) | 1950 x 910 | Cell 11 | Middle frames from train/val/test across both classes |
-| [`evaluation_dashboard.png`](assets/evaluation_dashboard.png) | 2600 x 1820 | Cell 22 | Confusion matrices, ROC, PR curves, metric comparisons |
+| File | Description |
+|:-----|:------------|
+| `shop_lifter_39/` | 32 per-frame Grad-CAM PNGs |
+| `shop_lifter_60/` | 32 per-frame Grad-CAM PNGs |
+| [`shop_lifter_39_gradcam.gif`](gradcam_outputs/shop_lifter_39_gradcam.gif) | Animated Grad-CAM (shoplifting, 0.767 confidence) |
+| [`shop_lifter_39_gradcam.mp4`](gradcam_outputs/shop_lifter_39_gradcam.mp4) | MP4 version of the above |
+| [`shop_lifter_39_4frames.png`](gradcam_outputs/shop_lifter_39_4frames.png) | 4-frame summary panel with heatmaps |
+| [`shop_lifter_60_gradcam.gif`](gradcam_outputs/shop_lifter_60_gradcam.gif) | Animated Grad-CAM (shoplifting, 0.678 confidence) |
+| [`shop_lifter_60_best_frames.png`](gradcam_outputs/shop_lifter_60_best_frames.png) | Top-4 highest-activation frames |
+| [`shop_lifter_60_cam_timeline.png`](gradcam_outputs/shop_lifter_60_cam_timeline.png) | Temporal activation profile across 32 frames |
+| [`shop_lifter_n_102_1_gradcam.gif`](gradcam_outputs/shop_lifter_n_102_1_gradcam.gif) | Animated Grad-CAM (non-shoplifter) |
+| [`videppppsss_23_gradcam.gif`](gradcam_outputs/videppppsss_23_gradcam.gif) | Animated Grad-CAM (non-shoplifter) |
+
+### `assets/` -- Documentation Figures
+
+| File | Source | Content |
+|:-----|:-------|:--------|
+| [`overview_plots.png`](assets/overview_plots.png) | Cell 4 | Class distribution, frame counts, durations, FPS, file sizes |
+| [`visual_sanity_check.png`](assets/visual_sanity_check.png) | Cell 11 | Middle frames from train/val/test across both classes |
+| [`evaluation_dashboard.png`](assets/evaluation_dashboard.png) | Cell 22 | Evaluation dashboard (cleaned data run) |
+| [`evaluation_dashboard_uncleaned.png`](assets/evaluation_dashboard_uncleaned.png) | Cell 22 | Evaluation dashboard (uncleaned data run -- AUC=0.5 collapse) |
+| [`shop_lifter_39_gradcam.gif`](assets/shop_lifter_39_gradcam.gif) | Grad-CAM | Hero GIF for README |
+| [`shop_lifter_39_4frames.png`](assets/shop_lifter_39_4frames.png) | Grad-CAM | 4-frame panel for README |
 
 ---
 
-## 13. Two Training Runs -- Comparative Analysis
+## 14. Two Training Runs -- Comparative Analysis
 
 The repository contains outputs from **two distinct training runs**, demonstrating the critical impact of data cleaning on model performance.
 
@@ -647,9 +789,17 @@ Trained on 276 train / 59 val / 60 test videos (395 clean videos after deduplica
 
 The contradictory supervision from cross-class duplicate videos (identical frames labelled as both "shoplifter" and "non-shoplifter") forces the model to minimise loss by predicting the class prior for every input, producing zero discriminative power. Removing these conflicts is a prerequisite for any learning on this dataset.
 
+### Evaluation Dashboard -- Uncleaned Run
+
+The dashboard from the uncleaned training run clearly shows the failure mode: both models predict every sample as "Shoplifter", ROC-AUC = 0.500, and the F1-vs-threshold curve collapses.
+
+![Evaluation Dashboard -- Uncleaned Run](assets/evaluation_dashboard_uncleaned.png)
+
+*Figure 4: Evaluation dashboard from the uncleaned training run. Both confusion matrices show zero true negatives (all 80 non-shoplifters classified as shoplifters). The ROC curves sit exactly on the diagonal (AUC = 0.500 = random chance). The metric bar chart shows identical performance for both models, confirming complete failure to discriminate.*
+
 ---
 
-## 14. How to Reproduce
+## 15. How to Reproduce
 
 ### Prerequisites
 
@@ -697,7 +847,7 @@ The contradictory supervision from cross-class duplicate videos (identical frame
 
 ---
 
-## 15. Limitations and Future Work
+## 16. Limitations and Future Work
 
 ### Known Limitations
 
@@ -717,12 +867,12 @@ The contradictory supervision from cross-class duplicate videos (identical frame
 - **Temporal action localisation:** Extend to frame-level detection using SlowFast, Video Swin Transformer, or ActionFormer.
 - **Larger backbones:** Replace R3D-18 with X3D, MViT, or VideoMAE for greater model capacity.
 - **Embedding-based deduplication:** Replace pHash with CLIP or DINOv2 embeddings for semantically meaningful deduplication.
-- **Grad-CAM visualisation:** Apply 3D Grad-CAM to identify which spatial regions and temporal segments drive predictions.
+- **Extended Grad-CAM analysis:** The current 3D Grad-CAM analysis (see [Section 12](#12-grad-cam-interpretability-analysis)) covers four representative videos. Extending this to the full test set would enable systematic analysis of failure modes and attention patterns across edge cases.
 - **Real-time inference:** Export the best model to TensorRT or ONNX for deployment in live surveillance systems.
 
 ---
 
-## 16. Dependencies
+## 17. Dependencies
 
 All dependencies are installed automatically by Cell 0 of the notebook.
 
