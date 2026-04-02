@@ -1,0 +1,27 @@
+
+=================================================================
+SHOPLIFTING DETECTION — FINAL TRAINING REPORT
+=================================================================
+
+DATASET
+  Train videos              : 276
+  Val videos                : 59
+  Test videos               : 60
+  Frames per video          : 32
+  Frame resolution          : (224, 224)
+
+MODEL — Video Swin Transformer (Swin-T, Kinetics-400)
+  Optimal threshold         : 0.28
+  F1 Score                  : 0.9487
+  Precision                 : 0.9024
+  Recall                    : 1.0000
+  ROC-AUC                   : 0.9976
+
+OUTPUTS SAVED
+  /content/drive/MyDrive/training_outputs/
+    video_swin_best.pth
+    video_swin_history.csv
+    training_curves.png
+    evaluation_dashboard.png
+    test_results_summary.csv
+=================================================================

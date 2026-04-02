@@ -1,0 +1,60 @@
+val_video,most_similar_train,cosine_similarity
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_28_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_26_1.mp4,0.998
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_9.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_8.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_29.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_25.mp4,0.9984
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_179_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_184_1.mp4,0.9921
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_4.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_11.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_37_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_36.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_76.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_77.mp4,0.9987
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_38.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_32.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_31.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_34.mp4,0.9979
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_117.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_110.mp4,0.9989
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_7.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_8_1.mp4,0.9994
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_215_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_180_1.mp4,0.987
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_73.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_71.mp4,0.9977
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_50.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_53.mp4,0.9983
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_6.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_5.mp4,0.9994
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_68.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_64.mp4,0.9939
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_25_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_27_1.mp4,0.9986
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_156_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_153_1.mp4,0.9975
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_29.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_30.mp4,0.9948
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_35.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_31.mp4,0.9989
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_7.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_6.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_143_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_75.mp4,0.9949
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_44.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_49.mp4,0.9986
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_34.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_36.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_6.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_8.mp4,0.9989
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_70.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_71.mp4,0.9979
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_51.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_53.mp4,0.9988
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_178_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_177_1.mp4,0.9968
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_51.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_50.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_0_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_2.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_39_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_36.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_209_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_208_1.mp4,0.9986
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_95.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_96.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_113_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_112_1.mp4,0.9983
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_14.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_15.mp4,0.9981
+/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_33.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videppppsss_32.mp4,0.9995
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_16.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_19.mp4,0.9994
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_33.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_31.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_1.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_2.mp4,0.9988
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_27.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_26.mp4,0.9978
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_16.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_15.mp4,0.9982
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_9.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_11.mp4,0.9994
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_26.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_25.mp4,0.9988
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_28.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyynnnnnnzzzzzyyyss_29.mp4,0.9977
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_5_1.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_8_1.mp4,0.9988
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_154.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_153_1.mp4,0.9987
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_24.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_23.mp4,0.996
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_74.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_75.mp4,0.9983
+/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_188.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/shop_lifter_n_180_1.mp4,0.9902
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_63.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_57.mp4,0.9988
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_99.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_100.mp4,0.9992
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_52.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_53.mp4,0.9989
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_10.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_11.mp4,0.9994
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_35.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_34.mp4,0.9976
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_3.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_2.mp4,0.999
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_55.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyyyyss_54.mp4,0.9989
+/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_85.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/shop_lifter_102.mp4,0.9995
+/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_77.mp4,/content/ShopDataSet/Shop DataSet/non shop lifters/videppppsss_75.mp4,0.9993
+/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_19.mp4,/content/ShopDataSet/Shop DataSet/shop lifters/videyyyyyyzzzzzyyyss_18.mp4,0.9966
